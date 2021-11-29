@@ -1,16 +1,16 @@
-from PIL import Image
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.auth.models import AbstractUser
 
-User = get_user_model()
 
-class MinResulutionExeption(Exception):
-    pass
+class User(AbstractUser):
+    phone = models.CharField(max_length=20, verbose_name='Номер телефона', null=True)
+    address = models.CharField(max_length=250, verbose_name='Адрес', null=True)
 
-class MaxResulutionExeption(Exception):
-    pass
+    def __str__(self):
+        return 'Покупатель: {}'.format(self.username)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=250, verbose_name='Имя категории')
@@ -21,34 +21,15 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    MIN_RESOLUTION = (400, 400)
-    MAX_RESOLUTION = (800, 800)
-    MAX_IMAGE_SIZE = 3200000
-
     class Meta:
         abstract = True
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     title = models.CharField(max_length=250, verbose_name='Наименование')
     slug = models.SlugField(unique=True)
-    image = models.ImageField(verbose_name='Изображение')
+    image = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True, verbose_name='Изображение')
     description = models.TextField(null=True, verbose_name='Описание')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
-
-    def __str__(self):
-        return self.title
-
-    def save(self, *args, **kwargs):
-        image = self.image
-        img = Image.open(image)
-        min_height, min_width = self.MIN_RESOLUTION
-        max_height, max_width = self.MAX_RESOLUTION
-
-        if img.height < min_height or img.width < min_width:
-            raise MinResulutionExeption('Разрешение изображения меньше минимального!')
-        if img.height > max_height or img.width > max_width:
-            raise MaxResulutionExeption('Разрешение изображения больше максимального!')
-        return image
 
 
 class Notebook(Product):
@@ -78,33 +59,14 @@ class Smartphone(Product):
         return '{} : {}'.format(self.category.name, self.title)
 
 
-class CartProduct(models.Model):
-    user = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Покупатель')
-    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, verbose_name='Корзина', related_name='related_products')
+class Order(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    qty = models.PositiveIntegerField(default=1)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
-
-    def __str__(self):
-        return 'Продукт: {} (для корзины)'.format(self.product.title)
-
-
-class Cart(models.Model):
-    owner = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Владелец')
-    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(default=0)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
+    comment = models.TextField(blank=True, verbose_name='Комментарий к заказу')
 
     def __str__(self):
-        return self.id
-
-
-class Customer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    phone = models.CharField(max_length=20, verbose_name='Номер телефона')
-    address = models.CharField(max_length=250, verbose_name='Адрес')
-
-    def __str__(self):
-        return 'Покупатель: {} {}'.format(self.first_name, self.last_name)
+        return self.owner.username
