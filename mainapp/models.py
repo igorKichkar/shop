@@ -20,11 +20,20 @@ class Category(models.Model):
         return self.name
 
 
+class Subсategory(models.Model):
+    name = models.CharField(max_length=250, verbose_name='Имя подкатегории')
+    slug = models.SlugField(unique=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     class Meta:
         abstract = True
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    subcategory = models.ForeignKey(Subсategory, on_delete=models.CASCADE, verbose_name='Подкатегория')
     title = models.CharField(max_length=250, verbose_name='Наименование')
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True, verbose_name='Изображение')
@@ -41,7 +50,7 @@ class Notebook(Product):
     time_without_charge = models.CharField(max_length=255, verbose_name='Время работы аккумулятора')
 
     def __str__(self):
-        return '{} : {}'.format(self.category.name, self.title)
+        return '{} : {}'.format(self.subcategory.name, self.title)
 
 
 class Smartphone(Product):
@@ -56,7 +65,7 @@ class Smartphone(Product):
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Фронтальная камера')
 
     def __str__(self):
-        return '{} : {}'.format(self.category.name, self.title)
+        return '{} : {}'.format(self.subcategory.name, self.title)
 
 
 class Order(models.Model):

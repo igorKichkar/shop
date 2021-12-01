@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 from .forms import *
+from django.apps import apps
+from .models import *
 
 
 class StoreHome(ListView):
@@ -25,25 +27,36 @@ class StoreHome(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['notebook'] = Notebook.objects.all()
-        print(context)
+        context['category'] = Category.objects.all()
+        subсategory = {}
+        for i in Subсategory.objects.all():
+            subсategory[i.category_id] = [i.name, i.slug]
+
+
+        context['subсategory'] = subсategory
         return context
 
     def get_queryset(self):
         return Smartphone.objects.all()
 
-def index(request):
-    print(request.user)
-    return render(request, 'mainapp/main.html')
+def category(request, name_category):
+    # if name_category == 'smartphones':
+    #     products = Smartphone.objects.all()
+    # elif name_category == 'notebooks':
+    #     products = Notebook.objects.all()
+    context = {
+        'subсategory': Subсategory.objects.all(),
+        'category': Category.objects.all()
+    }
 
-
-def login(request):
-    return HttpResponse('ok')
+    return render(request, 'mainapp/category.html', context=context)
 
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'mainapp/register.html'
     success_url = reverse_lazy('login')
+    print(Subсategory.objects.first().category_id)
 
 
 class LoginUser(LoginView):
