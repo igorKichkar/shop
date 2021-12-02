@@ -1,0 +1,28 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+    <div class="row padding_top">
+        <div class="col-lg-9">
+            <h4>{{ data_product.Наименование }}</h4>
+            {% if data_product.image %}
+                <img class="card-img-top img_detail_product" src="{{ data_product.image.url }}" alt="">
+            {% endif %}
+            <h5 class="price">{{ data_product.Цена }} р.</h5>
+            <a href="{% url 'add_to_basket' name_category=data_product.product_name product_id=data_product.ID %}">
+                <button type="button" class="btn btn-outline-dark btn-sm">Добавить в корзину</button>
+            </a>
+            <table class="table table-striped">
+                <tbody>
+                {% for key, value in data_product.items %}
+                    {% if key != 'Наименование' and key != 'image' and key != 'slug' and key != 'Цена' %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

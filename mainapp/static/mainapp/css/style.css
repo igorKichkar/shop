@@ -1,7 +1,27 @@
 body {
-  padding-top: 54px;
+    padding-top: 54px;
 }
 
-.img_lict_products{
-  width: 70px;
+.img_lict_products {
+    width: 70px;
+}
+
+.img_detail_product {
+    width: 50%;
+}
+
+.catalog {
+    padding: 15px 0 20px 20px;
+}
+
+.product_item {
+    color: #002838;
+}
+
+.padding_top {
+    padding-top: 20px;
+}
+
+.price {
+    padding: 20px 0 10px 0;
 }
