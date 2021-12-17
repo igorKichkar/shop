@@ -2,19 +2,16 @@
 {% load mathfilters %}
 
 {% block content %}
-    {% for i in products_in_card %}
-        <div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for i in products_in_card %}
+
             <p>{{ i.content_object.title }}</p>
             <p>{{ i.content_object.price|mul:i.total_products }}</p>
-            <form class="form-inline" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">
-                    Add
-                </button>
-            </form>
-        </div>
-        <br>
-    {% endfor %}
-
+            <label for="team_name">Amount: </label>
+            <input id="team_name" type="text" name="{{ i.id }}" value="Default name for team.">
+            <br>
+        {% endfor %}
+        <input type="submit" value="OK">
+    </form>
 {% endblock content %}

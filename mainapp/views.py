@@ -96,14 +96,10 @@ def add_to_card(request, name_category, product_id):
 def card_manager(request):
     products_in_card = Card.objects.filter(owner=request.user)
     if request.method == "POST":
-        form = CardAmmount(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data['ammount'])
-            return redirect('card_manager')
-    else:
-        form = CardAmmount()
+        for i in products_in_card:
+            print(request.POST.get(str(i.id)))
     context = {
-        'form': form,
+
         'category': Category.objects.all(),
         'subсategory': Subсategory.objects.all(),
         'products_name': Product_name.objects.all(),
