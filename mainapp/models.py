@@ -83,6 +83,16 @@ class Headphones(Product):
     def __str__(self):
         return '{} : {}'.format(self.product_name.name, self.title)
 
+class Card(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    total_products = models.PositiveIntegerField(default=1)
+    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
+
+    def __str__(self):
+        return self.content_object.title
 
 class Order(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')

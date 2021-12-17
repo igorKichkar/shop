@@ -11,7 +11,9 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('category/<slug:product_name_category>/', category, name='category'),
     path('detail-product/<slug:product_name_category>/<int:product_id>/', detail_product, name='detail_product'),
-    path('add_to_basket/<slug:name_category>/<str:product_id>/', add_to_basket, name='add_to_basket'),
+    path('add-to-card/<slug:name_category>/<str:product_id>/', add_to_card, name='add_to_card'),
+    path('card-manager/', card_manager, name='card_manager'),
+    path('update_card/', update_card, name='update_card'),
 ]
 
 if settings.DEBUG:

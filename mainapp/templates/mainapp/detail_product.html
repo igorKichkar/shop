@@ -8,9 +8,17 @@
                 <img class="card-img-top img_detail_product" src="{{ data_product.image.url }}" alt="">
             {% endif %}
             <h5 class="price">{{ data_product.Цена }} р.</h5>
-            <a href="{% url 'add_to_basket' name_category=data_product.product_name product_id=data_product.ID %}">
-                <button type="button" class="btn btn-outline-dark btn-sm">Добавить в корзину</button>
-            </a>
+            {% if not in_card %}
+                <a href="{% url 'add_to_card' name_category=data_product.product_name product_id=data_product.ID %}"
+                   class="btn btn-outline-dark btn-sm">
+                    Добавить в корзину
+                </a>
+            {% else %}
+                <a href="{% url 'card_manager' %}"
+                   class="btn btn-outline-secondary btn-sm">
+                    Перейти в корзину
+                </a>
+            {% endif %}
             <table class="table table-striped">
                 <tbody>
                 {% for key, value in data_product.items %}

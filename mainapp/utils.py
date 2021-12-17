@@ -26,3 +26,12 @@ def get_product_data_for_template(model, obj):
         else:
             data[i.verbose_name] = getattr(obj, i.name)
     return data
+
+
+def check_in_card(products_in_card, product):
+    if not products_in_card:
+        return False
+    for i in products_in_card:
+        if i.content_object.__class__._meta.model_name == product.__class__._meta.model_name and i.object_id == product.id:
+            return True
+    return False

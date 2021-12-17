@@ -1,0 +1,20 @@
+{% extends 'mainapp/base.html' %}
+{% load mathfilters %}
+
+{% block content %}
+    {% for i in products_in_card %}
+        <div>
+            <p>{{ i.content_object.title }}</p>
+            <p>{{ i.content_object.price|mul:i.total_products }}</p>
+            <form class="form-inline" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    Add
+                </button>
+            </form>
+        </div>
+        <br>
+    {% endfor %}
+
+{% endblock content %}

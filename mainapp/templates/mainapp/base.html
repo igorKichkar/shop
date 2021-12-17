@@ -54,7 +54,7 @@
                                                     <div id="{{ sub.slug }}" class="panel-collapse collapse">
                                                         <div class="panel-body">
                                                             <ul>
-                                                                {% for prod in product_name %}
+                                                                {% for prod in products_name %}
                                                                     {% if prod.category_id == sub.id %}
                                                                         <li><a href="{% url 'category' product_name_category=prod.slug%}"
                                                                                class="product_item">{{ prod.name }}</a></li>
