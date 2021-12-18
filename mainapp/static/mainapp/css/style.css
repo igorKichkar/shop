@@ -1,5 +1,6 @@
 body {
     padding-top: 54px;
+    background-color: rgba(0, 40, 56, 0.06);
 }
 
 .img_lict_products {
@@ -24,4 +25,8 @@ body {
 
 .price {
     padding: 20px 0 10px 0;
+}
+
+.form_input{
+    width: 100px;
 }

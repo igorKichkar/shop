@@ -1,19 +1,12 @@
-import instance as instance
 from django.contrib.auth import logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
-from django.http import HttpResponse, request
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
-from django.http import HttpResponse
+from django.views.generic import ListView, CreateView
+from django.contrib import messages
 from .forms import *
-from django.apps import apps
 from .models import *
 from .utils import get_model_from_slug, get_product_data_for_template, check_in_card
-from pprint import pprint
-from django.contrib.contenttypes.models import ContentType, ContentTypeManager
 
 
 class StoreHome(ListView):
@@ -80,6 +73,11 @@ class LoginUser(LoginView):
         return reverse_lazy('index')
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
 def add_to_card(request, name_category, product_id):
     products = get_model_from_slug(name_category)
     product = products.objects.get(pk=product_id)
@@ -87,36 +85,62 @@ def add_to_card(request, name_category, product_id):
     if check_in_card(products_in_card, product):
         print('Exist!!!!!!!!!!!!!')
     else:
-        c = Card(owner=request.user, content_object=product, final_price=product.price)
+        c = Card(owner=request.user, content_object=product)
         c.save()
         print('save')
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 def card_manager(request):
+    def check_form_inputs(inputs):
+        for i in inputs:
+            form_input = int(request.POST.get(str(i.id)) or 0)
+            if not form_input > 0:
+                return False
+        return True
+
     products_in_card = Card.objects.filter(owner=request.user)
     if request.method == "POST":
+        if not check_form_inputs(products_in_card):
+            messages.add_message(request, messages.INFO, 'Некоректное колличество товара')
+            return redirect('card_manager')
         for i in products_in_card:
-            print(request.POST.get(str(i.id)))
+            form_input = request.POST.get(str(i.id))
+            if i.total_products != int(form_input) and int(form_input) > 0:
+                i.total_products = int((request.POST.get(str(i.id))))
+                i.save()
+            else:
+                print(i.total_products, int((request.POST.get(str(i.id)))), '    NO Change')
+    sum_in_catd = 0
+    for i in products_in_card:
+        sum_in_catd += i.content_object.price * i.total_products
     context = {
-
         'category': Category.objects.all(),
         'subсategory': Subсategory.objects.all(),
         'products_name': Product_name.objects.all(),
         'products_in_card': products_in_card,
+        'sum_in_catd': sum_in_catd,
     }
     return render(request, 'mainapp/card.html', context=context)
 
 
-def update_card(request):
-    if request.method == "POST":
-        form = CardAmmount(request.POST)
-        print(form.cleaned_data['ammount'])
-
-    form = CardAmmount()
-    return redirect(request.META.get('HTTP_REFERER'))
+def delete_from_card(request, product_id):
+    Card.objects.filter(id=product_id).delete()
+    return redirect('card_manager')
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 
-def logout_user(request):
-    logout(request)
-    return redirect('login')
+def create_order(request):
+    products_in_card = Card.objects.filter(owner=request.user)
+    order1 = TotalOrderForUser(owner=request.user)
+    order1.save()
+    for i in products_in_card:
+        product_registration_in_the_order = OrderProduct(content_object=i.content_object,
+                                                         total_products=i.total_products,
+                                                         final_price=i.content_object.price)
+        print('iteration_________________')
+        product_registration_in_the_order.save()
+        order1.order.add(product_registration_in_the_order)
+        print(order1.order.all())
+        i.delete()
+    return redirect('index')

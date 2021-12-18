@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -49,6 +50,12 @@ class Product(models.Model):
     description = models.TextField(null=True, verbose_name='Описание')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
 
+    def get_absolute_url(self):
+        return reverse('detail_product',
+                       kwargs={'product_name_category': self.product_name.slug, 'product_id': self.id})
+
+    def __str__(self):
+        return '{} : {}'.format(self.product_name.name, self.title)
 
 class Notebook(Product):
     display = models.CharField(max_length=255, verbose_name='Диагональ')
@@ -58,8 +65,7 @@ class Notebook(Product):
     video = models.CharField(max_length=255, verbose_name='Видеокарта')
     time_without_charge = models.CharField(max_length=255, verbose_name='Время работы аккумулятора')
 
-    def __str__(self):
-        return '{} : {}'.format(self.product_name.name, self.title)
+
 
 
 class Smartphone(Product):
@@ -73,15 +79,13 @@ class Smartphone(Product):
     main_cam_mp = models.CharField(max_length=255, verbose_name='Главная камера')
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Фронтальная камера')
 
-    def __str__(self):
-        return '{} : {}'.format(self.product_name.name, self.title)
+
 
 
 class Headphones(Product):
     interface = models.CharField(max_length=255, verbose_name='Интерфейс')
 
-    def __str__(self):
-        return '{} : {}'.format(self.product_name.name, self.title)
+
 
 class Card(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
@@ -89,18 +93,24 @@ class Card(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     total_products = models.PositiveIntegerField(default=1)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
 
     def __str__(self):
         return self.content_object.title
 
-class Order(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
+
+class OrderProduct(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     total_products = models.PositiveIntegerField(default=0)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
+    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена на момент заказа')
+
+    def __str__(self):
+        return self.content_object.title
+
+class TotalOrderForUser(models.Model):
+    order = models.ManyToManyField(OrderProduct)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
     comment = models.TextField(blank=True, verbose_name='Комментарий к заказу')
 
     def __str__(self):

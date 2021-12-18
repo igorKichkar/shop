@@ -1,17 +1,15 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>Electro Shop</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -56,8 +54,10 @@
                                                             <ul>
                                                                 {% for prod in products_name %}
                                                                     {% if prod.category_id == sub.id %}
-                                                                        <li><a href="{% url 'category' product_name_category=prod.slug%}"
-                                                                               class="product_item">{{ prod.name }}</a></li>
+                                                                        <li>
+                                                                            <a href="{% url 'category' product_name_category=prod.slug %}"
+                                                                               class="product_item">{{ prod.name }}</a>
+                                                                        </li>
                                                                     {% endif %}
                                                                 {% endfor %}
                                                             </ul>
@@ -84,20 +84,18 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Start Bootstrap</a>
+        <a class="navbar-brand" href="{% url 'index' %}">ElectroShop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'index' %}">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'card_manager' %}">Корзина</a>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
@@ -117,7 +115,7 @@
 </nav>
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        <p class="m-0 text-center text-white">Copyright &copy; My Website 2021</p>
     </div>
 </footer>
 <!-- Bootstrap core JavaScript -->

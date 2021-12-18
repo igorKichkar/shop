@@ -13,7 +13,8 @@ urlpatterns = [
     path('detail-product/<slug:product_name_category>/<int:product_id>/', detail_product, name='detail_product'),
     path('add-to-card/<slug:name_category>/<str:product_id>/', add_to_card, name='add_to_card'),
     path('card-manager/', card_manager, name='card_manager'),
-    path('update_card/', update_card, name='update_card'),
+    path('delete-from-card/<int:product_id>/', delete_from_card, name='delete_from_card'),
+    path('dcreate_order/', create_order, name='create_order'),
 ]
 
 if settings.DEBUG:
