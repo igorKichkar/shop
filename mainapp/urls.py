@@ -18,7 +18,6 @@ urlpatterns = [
     path('dcreate-order/', create_order, name='create_order'),
     path('user-orders/', user_orders, name='user_orders'),
     path('detail-order/<int:order_id>/', detail_order, name='detail_order'),
-    path('delete-order/<int:order_id>/', delete_order, name='delete_order'),
 ]
 
 if settings.DEBUG:
