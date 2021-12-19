@@ -1,5 +1,2 @@
-bin/
-lib/
+.env/
 .idea/
-pyvenv.cfg
-.venv/

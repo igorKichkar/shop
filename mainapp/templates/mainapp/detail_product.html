@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row padding_top">
         <div class="col-lg-9">
-            <h4>{{ data_product.Наименование }}</h4>
+            <h4 class="text-center">{{ data_product.Наименование }}</h4>
             {% if data_product.image %}
                 <img class="card-img-top img_detail_product" src="{{ data_product.image.url }}" alt="">
             {% endif %}
@@ -19,10 +19,11 @@
                     Перейти в корзину
                 </a>
             {% endif %}
+            <br><br>
             <table class="table table-striped">
                 <tbody>
                 {% for key, value in data_product.items %}
-                    {% if key != 'Наименование' and key != 'image' and key != 'slug' and key != 'Цена' %}
+                    {% if key != 'Наименование' and key != 'image' and key != 'slug' and key != 'Цена' and key != 'ID' and key != 'product_name' %}
                         <tr>
                             <td>{{ key }}</td>
                             <td>{{ value }}</td>

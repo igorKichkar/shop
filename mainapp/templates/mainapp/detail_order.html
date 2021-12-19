@@ -1,0 +1,32 @@
+{% extends 'mainapp/base.html' %}
+{% load mathfilters %}
+
+{% block content %}
+    <h4 class="detail_order_title">Заказ №{{ order.id }}</h4>
+    <p class="date_order_detail">От {{ order.time_create|date:"d M Y" }} - {{ order.time_create|time:"H:i" }}</p>
+    <table class="table">
+        <tbody>
+        <thead>
+        <tr>
+            <th scope="col">Название товара</th>
+            <th scope="col">Колличество</th>
+            <th scope="col">Цена</th>
+
+        </tr>
+        </thead>
+        {% for i in order_products %}
+            <tr>
+                <td><p>{{ i.content_object.title }}</p></td>
+                <td><p>{{ i.total_products }}</p></td>
+                <td>{{ i.final_price|mul:i.total_products }}</td>
+            </tr>
+        {% endfor %}
+        <tr class="table-active">
+            <td>Итого:</td>
+            <td></td>
+            <td>{{ sum_price }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock content %}
+

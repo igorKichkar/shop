@@ -1,0 +1,31 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+    <table class="table table-hover">
+        <tbody>
+        <thead>
+        <tr>
+            <th scope="col">Номер заказа</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Статус</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        {% for i in user_orders %}
+            <tr>
+                <td><a href="{{ i.get_absolute_url }}">{{ i.id }}</a></td>
+                <td><p>{{ i.time_create|date:"D d M Y" }} - {{ i.time_create|time:"H:i" }}</p></td>
+                {% if i.processed %}
+                    <td><p>Обработан</p></td>
+                    <td><a href="#" class="btn btn-outline-dark btn-sm btn disabled">Удалить</a></td>
+                {% else %}
+                    <td><p>Ожидает обработки</p></td>
+                    <td><a href="{% url 'delete_order' order_id=i.id %}" class="btn btn-outline-dark btn-sm">Удалить</a></td>
+                {% endif %}
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
+

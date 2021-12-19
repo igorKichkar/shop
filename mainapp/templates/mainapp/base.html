@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8">
@@ -19,65 +19,67 @@
     <link type="text/css" href="{% static 'mainapp/css/style.css' %}" rel="stylesheet"/>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="list-group">
-                <h4 class="catalog">Каталог</h4>
-                {% for cat in category %}
-                    <div class="panel-group category-products" id="accordian">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#{{ cat.slug }}">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        {{ cat.name }}
-                                    </a>
-                                </h5>
-                            </div>
-                            <div id="{{ cat.slug }}" class="panel-collapse collapse">
-                                {% for sub in subсategory %}
-                                    {% if sub.category_id == cat.id %}
-                                        <div class="panel-body">
-                                            <ul>
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h6 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordian"
-                                                               href="#{{ sub.slug }}">
-                                                                <span>{{ sub.name }}</span>
-                                                            </a>
-                                                        </h6>
-                                                    </div>
-                                                    <div id="{{ sub.slug }}" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-                                                            <ul>
-                                                                {% for prod in products_name %}
-                                                                    {% if prod.category_id == sub.id %}
-                                                                        <li>
-                                                                            <a href="{% url 'category' product_name_category=prod.slug %}"
-                                                                               class="product_item">{{ prod.name }}</a>
-                                                                        </li>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </ul>
+<div class='container main-content'>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="list-group">
+                    <h4 class="catalog">Каталог</h4>
+                    {% for cat in category %}
+                        <div class="panel-group category-products" id="accordian">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#{{ cat.slug }}">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            {{ cat.name }}
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="{{ cat.slug }}" class="panel-collapse collapse">
+                                    {% for sub in subсategory %}
+                                        {% if sub.category_id == cat.id %}
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h6 class="panel-title">
+                                                                <a data-toggle="collapse" data-parent="#accordian"
+                                                                   href="#{{ sub.slug }}">
+                                                                    <span>{{ sub.name }}</span>
+                                                                </a>
+                                                            </h6>
+                                                        </div>
+                                                        <div id="{{ sub.slug }}" class="panel-collapse collapse">
+                                                            <div class="panel-body">
+                                                                <ul>
+                                                                    {% for prod in products_name %}
+                                                                        {% if prod.category_id == sub.id %}
+                                                                            <li>
+                                                                                <a href="{% url 'category' product_name_category=prod.slug %}"
+                                                                                   class="product_item">{{ prod.name }}</a>
+                                                                            </li>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="col-lg-9">
+            <div class="col-lg-9">
 
-            {% block content %}
-            {% endblock %}
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
     </div>
 </div>
@@ -99,14 +101,17 @@
                 </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'user_orders' %}">Мои заказы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'login' %}">Войти</a>
                     </li>
                 {% endif %}
             </ul>

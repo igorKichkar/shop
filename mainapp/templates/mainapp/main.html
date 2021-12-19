@@ -1,32 +1,53 @@
 {% extends 'mainapp/base.html' %}
 
 {% block content %}
- <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+    <div id="carouselExampleIndicators" class="carousel slide my-4 w-50" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <img class="d-block img-fluid"
+                     src="https://www.howtablet.ru/wp-content/uploads/2020/06/%D0%9B%D1%83%D1%87%D1%88%D0%B8%D0%B9-%D0%BD%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA-Dell-XPS-15-2020.jpg"
+                     alt="First slide">
             </div>
+            <div class="carousel-item">
+                <img class="d-block img-fluid"
+                     src="https://htstatic.imgsmail.ru/pic_image/1fb2fedd19f4c503cbe16d52d779c7ed/840/476/1680206/"
+                     alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block img-fluid"
+                     src="https://www.notebookcheck-ru.com/fileadmin/Notebooks/News/_nc3/csm_Nitro_5_AN515_54Left_AN517_51Right_73bb8b4f40.jpg" alt="Third slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div>
+        <h4>Почему ElectroShop?</h4>
+        <p>Всё просто! У нас выгодно покупать: мы отслеживаем рынок цен и стараемся делать выгодные предложения. Наши
+            сотрудники — это специалисты с большим опытом работы, которые ответят на все вопросы, связанные с выбором
+            любого товара из нашего каталога. Мы заботимся о том, чтобы каждый покупатель смог найти товар, который
+            лучше всего отвечает его потребностям и финансовым возможностям.</p>
+
+        <h4>Принципы работы нашего интернет-магазина</h4>
+        <p>Мы работаем под девизом «Никто лучше нас!». Эти слова означают не только надлежащее качество представленных
+            у нас товаров, но и высокий уровень сервиса — вежливые операторы, квалифицированные специалисты по продажам,
+            пунктуальные и ответственные курьеры.</p>
+
+        <p>Мы дорожим каждым клиентом и работаем над тем, чтобы все покупатели остались довольны.</p>
+
+        <p>ElectroShop — легко выбирать, выгодно покупать!</p>
+    </div>
 
 {% endblock %}
 

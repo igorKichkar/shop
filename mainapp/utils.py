@@ -11,12 +11,6 @@ def get_model_from_slug(slug):
     else:
         return None
 
-    # def get_model_fields(model):
-    #     return model._meta.fields
-    # ddd = get_model_fields(Smartphone)[2]
-    # s = Smartphone.objects.get(pk=1)
-    # print(getattr(s, ddd.name))
-
 
 def get_product_data_for_template(model, obj):
     data = {}

@@ -57,6 +57,7 @@ class Product(models.Model):
     def __str__(self):
         return '{} : {}'.format(self.product_name.name, self.title)
 
+
 class Notebook(Product):
     display = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
@@ -64,8 +65,6 @@ class Notebook(Product):
     ram = models.CharField(max_length=255, verbose_name='Оперативная память')
     video = models.CharField(max_length=255, verbose_name='Видеокарта')
     time_without_charge = models.CharField(max_length=255, verbose_name='Время работы аккумулятора')
-
-
 
 
 class Smartphone(Product):
@@ -80,11 +79,8 @@ class Smartphone(Product):
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Фронтальная камера')
 
 
-
-
 class Headphones(Product):
     interface = models.CharField(max_length=255, verbose_name='Интерфейс')
-
 
 
 class Card(models.Model):
@@ -108,10 +104,16 @@ class OrderProduct(models.Model):
     def __str__(self):
         return self.content_object.title
 
+
 class TotalOrderForUser(models.Model):
     order = models.ManyToManyField(OrderProduct)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
     comment = models.TextField(blank=True, verbose_name='Комментарий к заказу')
+    time_create = models.DateTimeField(null=True, auto_now_add=True)
+    processed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.owner.username
+
+    def get_absolute_url(self):
+        return reverse('detail_order', kwargs={'order_id': self.id})

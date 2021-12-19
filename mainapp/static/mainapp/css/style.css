@@ -4,11 +4,13 @@ body {
 }
 
 .img_lict_products {
-    width: 70px;
+    width: 150px;
+    margin-left: 50px;
 }
 
 .img_detail_product {
-    width: 50%;
+    width: 200px;
+    margin-left: 200px;
 }
 
 .catalog {
@@ -30,3 +32,47 @@ body {
 .form_input{
     width: 100px;
 }
+
+.detail_order_title{
+    padding: 15px 0 0 12px;
+}
+
+.date_order_detail{
+    font-size: 80%;
+    font-style: italic;
+    color: #8f8f8f;
+    padding: 0 0 15px 12px;
+}
+
+.product_detail_main_information{
+    height: 30px;
+}
+
+.cart_blank{
+    padding-top: 50px;
+}
+
+
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header {
+    flex: 0 0 auto;
+}
+
+.main-content {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex: 0 0 auto;
+}
+
